@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hospital Dashboard</title>
+    <style>
+      /* Add your CSS styles here */
+    </style>
+  </head>
+  <body>
+    <h1>Hospital Dashboard</h1>
+    <button id="patient-button">Patient</button>
+    <div id="patient-details"></div>
+    <script>
+      var patientButton = document.getElementById("patient-button");
+      var patientDetails = document.getElementById("patient-details");
+
+      patientButton.addEventListener("click", function() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "get-patient-details.php");
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            var detailsHtml = "<h2>Patient Details</h2><ul><li>Name: " + response.name + "</li><li>Age: " + response.age + "</li><li>Gender: " + response.gender + "</li></ul>";
+            patientDetails.innerHTML = detailsHtml;
+          } else {
+            console.error(xhr.statusText);
+          }
+        };
+        xhr.onerror = function() {
+          console.error(xhr.statusText);
+        };
+        xhr.send();
+      });
+    </script>
+  </body>
+</html>
